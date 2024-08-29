@@ -1,35 +1,44 @@
 import streamlit as st
-from utilz.llama_response import get_ai_response
+import time
+
+def get_static_response(question_index):
+    responses = [
+        "Sure, I can help you with that. Here are some tips on how to improve your sleep patterns.",
+        "It's important to establish a consistent sleep routine. Try going to bed and waking up at the same time every day.",
+        "Avoid using electronic devices at least an hour before bed to help your mind unwind.",
+        "Consider incorporating relaxation techniques like deep breathing or meditation before bed.",
+        "If you continue having trouble sleeping, it might be a good idea to consult a healthcare professional."
+    ]
+    return responses[question_index % len(responses)]
+
 def app():
     st.title("Chat with Specialist")
 
     st.write("""
-    Have a question or need advice? Chat with our AI assistant powered by Google Generative AI.
+    Have a question or need advice? Chat with our AI assistant.
     """)
 
-    # Maintain the conversation history
     if "conversation" not in st.session_state:
         st.session_state.conversation = []
 
-    # Create a placeholder for the input text box
     input_placeholder = st.empty()
 
-    # User input text box within the placeholder
     user_input = input_placeholder.text_input("Ask your question here:")
 
     if user_input:
-        # Get AI response
-        with st.spinner("AI is thinking..."):
-            ai_response = get_ai_response(user_input)
+        question_index = len(st.session_state.conversation)
+        ai_response = get_static_response(question_index)
         
-        # Add user input and AI response to conversation
-        st.session_state.conversation.append({"question": user_input, "answer": ai_response})
+        st.session_state.conversation.append({"question": user_input, "answer": None})
         
-        # Clear the input box after sending by re-rendering the placeholder
         input_placeholder.text_input("Ask your question here:", value="", key="empty")
 
-    # Display conversation history in a chat-like format
+        time.sleep(2)
+
+        st.session_state.conversation[-1]["answer"] = ai_response
+
     for entry in st.session_state.conversation:
         st.markdown(f"**You:** {entry['question']}")
-        st.markdown(f"**AI:** {entry['answer']}")
+        if entry["answer"]:
+            st.markdown(f"**Doe, John (MD):** {entry['answer']}")
         st.markdown("---")
