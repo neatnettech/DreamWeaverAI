@@ -7,7 +7,7 @@ from utilz.graphs.sleep_phases_chart import plot_sleep_phases_chart
 from utilz.graphs.sleep_distribution_chart import plot_sleep_distribution_chart
 
 def app():
-    st.title("Hello guest !")
+    st.title("Hello handsome !")
     st.write("Let me know how was your day!")
     st.write("Please answer the following questions to help us understand your sleep habits better. Based on your responses, we'll provide personalized recommendations to improve your sleep.")
 
